@@ -4,40 +4,65 @@ body {
 	font-size: 16px;
 }
 
-.frame.loading {
-	opacity: 0;
+*, *:before, *:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .frame {
-	-webkit-transition: opacity .25s linear;
-	opacity: 1;
+  clear: both;
+  content: "";
+  display: table;
+  padding-left: 450px;
+}
+
+.left-frame, .right-frame {
+  float: left;
+}
+
+.left-frame {
+  margin-left: -450px;
+  padding-left: 20px;
+  padding-top: 20px;
+  width: 420px;
+}
+
+.right-frame {
+  height: 320px;
+  left: 50%;
+  margin-top: -160px;
+  position: absolute;
+  top: 50%;
+  width: 320px;
 }
 
 .title {
 	background: url('../img/title.png') no-repeat center center;
 	height: 176px;
-	margin: 20px auto;
 	width: 420px;
 }
 
+
 .world {
-	-webkit-transition: width .25s linear;
-	margin: 0 auto;
+  width: 320px;
 }
 
 .block {
+  -webkit-transition: width .25s linear, height .25s linear;
 	background: url('../img/block.png') no-repeat center center;
-	background-size: 100%;
+  background-size: 100%;
 	color: #fff;
-	float: left;
+  float: left;
+  height: 40px;
 	font-size: 18px;
 	font-weight: bold;
-	height: 38px;
-	line-height: 40px;
-	margin: 1px;
+  line-height: 40px;
 	text-align: center;
 	text-shadow: 1px 1px 0 #000;
-	width: 38px;
+  width: 40px;
 }
 
 .block.is-revealed {
@@ -94,13 +119,12 @@ body {
 }
 
 .scoreboard {
-	float: left;
 	font-size: 28px;
 	font-weight: bold;
-	height: 200px;
+  padding-top: 20px;
 	position: relative;
 	text-align: center;
-	width: 200px;
+  width: 100%;
 }
 
 .scoreboard .coin {
@@ -108,4 +132,113 @@ body {
 	margin-left: -40px;
 	position: absolute;
 	top: -40px;
+}
+
+/*!
+Animate.css - http://daneden.me/animate
+Licensed under the MIT license - http://opensource.org/licenses/MIT
+
+Copyright (c) 2013 Daniel Eden
+*/
+
+.animated {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+@-webkit-keyframes fadeOutUp {
+  0% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    -webkit-transform: translateY(-20px);
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes fadeOutUp {
+  0% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    -ms-transform: translateY(0);
+    transform: translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    -webkit-transform: translateY(-20px);
+    -ms-transform: translateY(-20px);
+    transform: translateY(-20px);
+  }
+}
+
+.fadeOutUp {
+  -webkit-animation-name: fadeOutUp;
+  animation-name: fadeOutUp;
+}
+
+@-webkit-keyframes flipInX {
+  0% {
+    -webkit-transform: perspective(400px) rotateX(90deg);
+    transform: perspective(400px) rotateX(90deg);
+    opacity: 0;
+  }
+
+  40% {
+    -webkit-transform: perspective(400px) rotateX(-10deg);
+    transform: perspective(400px) rotateX(-10deg);
+  }
+
+  70% {
+    -webkit-transform: perspective(400px) rotateX(10deg);
+    transform: perspective(400px) rotateX(10deg);
+  }
+
+  100% {
+    -webkit-transform: perspective(400px) rotateX(0deg);
+    transform: perspective(400px) rotateX(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes flipInX {
+  0% {
+    -webkit-transform: perspective(400px) rotateX(90deg);
+    -ms-transform: perspective(400px) rotateX(90deg);
+    transform: perspective(400px) rotateX(90deg);
+    opacity: 0;
+  }
+
+  40% {
+    -webkit-transform: perspective(400px) rotateX(-10deg);
+    -ms-transform: perspective(400px) rotateX(-10deg);
+    transform: perspective(400px) rotateX(-10deg);
+  }
+
+  70% {
+    -webkit-transform: perspective(400px) rotateX(10deg);
+    -ms-transform: perspective(400px) rotateX(10deg);
+    transform: perspective(400px) rotateX(10deg);
+  }
+
+  100% {
+    -webkit-transform: perspective(400px) rotateX(0deg);
+    -ms-transform: perspective(400px) rotateX(0deg);
+    transform: perspective(400px) rotateX(0deg);
+    opacity: 1;
+  }
+}
+
+.flipInX {
+  -webkit-backface-visibility: visible !important;
+  -ms-backface-visibility: visible !important;
+  backface-visibility: visible !important;
+  -webkit-animation-name: flipInX;
+  animation-name: flipInX;
 }

@@ -7,20 +7,29 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" href="css/normalize.css">
-        <link rel="stylesheet" href="css/animate.css">
         <link rel="stylesheet" href="css/main.css">
     </head>
     <body>
         <div class="game loading" id="game">
-            <div class="title animated flipInX"></div>
-            <span class="js-time"></span>
-            <div class="scoreboard" id="scoreboard">
-                <span class="coin animated"></span>
-                <span class="js-score">0</span>
+            <div class="frame">
+                <div class="left-frame">
+                    <div class="title animated flipInX"></div>
+                    <div class="scoreboard" id="scoreboard">
+                        <span class="coin animated"></span>
+                        Score: <span class="js-score">0</span>
+                        <div>
+                            Time: <span class="js-time"></span>
+                        </div>
+                        <button class="js-restart">Restart</button>
+                    </div>
+                </div>
+
+                <div class="right-frame">
+                     <div class="world" id="world"></div>
+                </div>
             </div>
 
-            <div class="world" id="world"></div>
-
+       
             <div class="ground">
                 <div class="prop prop-bush"></div>
             </div>

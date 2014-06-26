@@ -21,6 +21,7 @@ define("World", [
 		 * Listen for new game events and set the world data when necessary
 		 */
 		initialize: function () {
+			EventsManager.on("Window.Resize", $.proxy(this.adjustSizes, this));
 			EventsManager.on("Game.NewGame", $.proxy(this.setWorld, this));
 		},
 
@@ -99,6 +100,22 @@ define("World", [
 			var blocks = this.createBlocks();
 			this.collection = blocks;
 			this.render();
+			this.adjustSizes();
+		},
+
+		adjustSizes: function () {
+			var rowSize = this.dimensions;
+			var containerWidth = this.$el.outerWidth(true);
+			var rowWidthAndHeight = containerWidth / rowSize;
+
+			this.collection.each(function (block) {
+				// var $el = block.$el;
+				// $el.css({
+				// 	"lineHeight": rowWidthAndHeight + "px",
+				// 	"height": rowWidthAndHeight,
+				// 	"width": rowWidthAndHeight
+				// });
+			});
 		}
 	});
 	

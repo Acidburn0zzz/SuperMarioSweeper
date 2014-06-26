@@ -14,6 +14,7 @@ define("Game", [
 	 */
 	var Game = Backbone.View.extend({
 		events: {
+			"click .js-restart": "handleRestart",
 			"change .js-world-select": "handleWorldChange"
 		},
 
@@ -74,6 +75,10 @@ define("Game", [
 
 				this.startNewGame(Config.WORLDS["1-1"]);
 			}, this));
+		},
+
+		handleRestart: function () {
+			this.startNewGame(this.activeWorld);
 		},
 
 		startNewGame: function (world) {

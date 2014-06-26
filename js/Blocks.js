@@ -213,6 +213,7 @@ define("Blocks", [
 			var numBowsersPlaced = 0;
 
 			while(numBowsersPlaced < numBowsersToPlace) {
+				console.log(numBowsersPlaced);
 				var block = this.getRandomBlock();
 
 				if (!block.get("isBowser")) {
