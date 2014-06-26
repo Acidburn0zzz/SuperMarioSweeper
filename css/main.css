@@ -1,0 +1,111 @@
+body {
+	background: #6b88fe;
+	color: #fff;
+	font-size: 16px;
+}
+
+.frame.loading {
+	opacity: 0;
+}
+
+.frame {
+	-webkit-transition: opacity .25s linear;
+	opacity: 1;
+}
+
+.title {
+	background: url('../img/title.png') no-repeat center center;
+	height: 176px;
+	margin: 20px auto;
+	width: 420px;
+}
+
+.world {
+	-webkit-transition: width .25s linear;
+	margin: 0 auto;
+}
+
+.block {
+	background: url('../img/block.png') no-repeat center center;
+	background-size: 100%;
+	color: #fff;
+	float: left;
+	font-size: 18px;
+	font-weight: bold;
+	height: 38px;
+	line-height: 40px;
+	margin: 1px;
+	text-align: center;
+	text-shadow: 1px 1px 0 #000;
+	width: 38px;
+}
+
+.block.is-revealed {
+	background-image: url('../img/block-revealed.png');
+}
+
+.block.is-bowser {
+	background-image: url('../img/block-bowser.png');
+}
+
+.block.is-one-up {
+	background-image: url('../img/block-one-up.png');
+}
+
+.block.is-power-up {
+	background-image: url('../img/block-powerup.png');
+}
+
+.block.is-flower {
+	background-image: url('../img/block-flower.png');
+}
+
+.ground {
+	background: url('../img/ground.png') repeat-x left top;
+	background-size: 10%;
+	bottom: 0;
+	height: 50px;
+	position: absolute;
+	width: 100%;
+}
+
+.prop {
+	background-position: left top;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	position: absolute;
+}
+
+.prop-bush {
+	bottom: 50px;
+	background-image: url('../img/bush.png');
+	height: 38px;
+	left: 20%;
+	width: 150px;
+}
+
+.coin {
+	background: url('../img/coin.gif') no-repeat center center;
+	background-size: 100%;
+	display: block;
+	height: 80px;
+	opacity: 0;
+	width: 80px;
+}
+
+.scoreboard {
+	float: left;
+	font-size: 28px;
+	font-weight: bold;
+	height: 200px;
+	position: relative;
+	text-align: center;
+	width: 200px;
+}
+
+.scoreboard .coin {
+	left: 50%;
+	margin-left: -40px;
+	position: absolute;
+	top: -40px;
+}

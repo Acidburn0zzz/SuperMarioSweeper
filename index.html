@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Super Mario Sweeper</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/animate.css">
+        <link rel="stylesheet" href="css/main.css">
+    </head>
+    <body>
+        <div class="game loading" id="game">
+            <div class="title animated flipInX"></div>
+            <span class="js-time"></span>
+            <div class="scoreboard" id="scoreboard">
+                <span class="coin animated"></span>
+                <span class="js-score">0</span>
+            </div>
+
+            <div class="world" id="world"></div>
+
+            <div class="ground">
+                <div class="prop prop-bush"></div>
+            </div>
+        </div>
+        
+        <script src="js/lib/require.js"></script>
+        <script>
+            require.config({
+                baseUrl: 'js',
+                paths: {
+                    backbone: 'lib/backbone',
+                    underscore: 'lib/underscore'
+                },
+                shim: {
+                    backbone: {
+                        deps: ['jquery', 'underscore'],
+                        exports: 'Backbone'
+                    },
+                    underscore: {
+                        exports: '_'
+                    }
+                }
+            });
+            require(['app']);
+        </script>
+
+        <script type="text/template" id="tpl-block">
+            <div class="block" id="<%- id %>" data-x="<%- x %>" data-y="<%- y %>"></div>
+        </script>
+    </body>
+</html>

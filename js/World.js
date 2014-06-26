@@ -1,0 +1,106 @@
+define("World", [
+	"jquery", 
+	"underscore", 
+	"backbone",
+	"SoundManager",
+	"EventsManager",
+	"Blocks"
+], function ($, _, Backbone, SoundManager, EventsManager, Blocks) {
+	
+	var World = Backbone.View.extend({
+		dimensions: 0,
+		difficulty: 0,
+		
+		collection: Blocks,
+
+		events: {
+			"click .block": "handleBlockClick"
+		},
+
+		/**
+		 * Listen for new game events and set the world data when necessary
+		 */
+		initialize: function () {
+			EventsManager.on("Game.NewGame", $.proxy(this.setWorld, this));
+		},
+
+		/**
+		 * Set the world dimensions & difficulty and reset the collection
+		 */
+		setWorld: function (worldData) {
+			this.dimensions = worldData.dimensions;
+			this.difficulty = worldData.difficulty;
+			this.reset();
+		},
+
+		/**
+		 * Reveal all bowsers on the world
+		 */
+		revealBowsers: function () {
+			var bowsers = this.collection.getAllBowsers();
+			var bowserIds = _.pluck(bowsers, "id");
+
+			_.each(bowserIds, function (id) {
+				var $el = $("#" + id);
+				$el.addClass("is-revealed is-bowser");
+			});
+		},
+
+		/*
+		 * Create the blocks collection and plant bowsers
+		 */
+		createBlocks: function () {
+			var blocks = new Blocks({
+				dimensions: this.dimensions,
+				difficulty: this.difficulty
+			});
+
+			blocks.generateBlocks();
+			blocks.plantBowserBlocks();
+			blocks.countNearbyBowsers();
+
+			return blocks;
+		},
+
+		/**
+		 * React to blocks being clicked and reveal adjacent blocks
+		 */
+		handleBlockClick: function (evt) {
+			var $el = $(evt.target);
+			var block = this.collection.getById($el.attr("id"));
+
+			if (block.get("isBowser")) {
+				block.reveal();
+				return;
+			}
+
+			this.collection.revealNearbyBlocks(block);
+		},
+
+		/**
+		 * Render the collection of blocks into the world
+		 */
+		render: function () {
+			var els = [];
+
+			this.collection.each(function (block) {
+				els.push(block.$el);
+			});
+
+			this.$el.html(els);
+		},
+
+		/**
+		 * Empty the world and recreate the blocks
+		 */
+		reset: function () {
+			this.$el.empty();
+
+			var blocks = this.createBlocks();
+			this.collection = blocks;
+			this.render();
+		}
+	});
+	
+	return World;
+});
