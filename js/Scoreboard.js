@@ -8,15 +8,45 @@ define("Scoreboard", [
 ], function ($, _, Backbone, Config, SoundManager, EventsManager) {
 	
 	var Scoreboard = Backbone.View.extend({
+
+		/**
+		 * Track the time remaining in the game
+		 */
+		gameTimeRemaining: Config.MAX_TIME,
+
+		/**
+		 * Interval for the game ticks
+		 */
+		gameTimer: null,
+
+		/**
+		 * Timer for the final tally score screen
+		 */
+		tallyTimer: null,
+
+		/**
+		 * Players current score
+		 */
 		currentScore: 0,
-		coin: null,
+
+		/**
+		 * Cache some jQuery elements
+		 */
+		$score: null,
+		$coin: null,
+		$flag: null,
+		$timer: null,
 
 		/**
 		 * Listen for new games and detach the spinning coin element
 		 */
 		initialize: function () {
 			EventsManager.on("Game.NewGame", $.proxy(this.handleNewGame, this));
-			this.coin = this.$(".coin").detach();
+
+			this.$timer = this.$(".js-time");
+			this.$flag = $("#flag");
+			this.$score = this.$(".js-score");
+			this.$coin = this.$(".coin").detach();
 		},
 
 		/**
@@ -31,14 +61,88 @@ define("Scoreboard", [
 		 */
 		reset: function () {
 			this.currentScore = 0;
+			this.stopAllTimers();
 			this.renderScore();
+		},
+
+		addTimeToScore: function () {
+			this.gameTimer = setInterval($.proxy(function () {
+				if (this.gameTimeRemaining === 0) {
+					this.stopAllTimers();
+					return;
+				}
+
+				this.gameTimeRemaining -= Config.TICK_RATE;
+				this.currentScore++;
+
+				this.renderTimerText();
+				this.renderScore();
+			}, this), 50);
+		},
+
+		tallyFinalScore: function (duration) {
+			this.tallyTimer = setTimeout($.proxy(function () {
+				SoundManager.playSound("flagpole");
+				this.$flag.addClass("raising");
+				this.addTimeToScore();
+			}, this), duration);
+		},
+
+		/**
+		 * Handle time changes, updating the time text, warn / game over if necessary
+		 */
+		handleGameTick: function () {
+			this.gameTimeRemaining -= Config.TICK_RATE;
+			this.renderTimerText();
+
+			if (this.gameTimeRemaining === Config.LOW_TIME_THRESHOLD) {
+				this.lowTimeWarning();
+			}
+
+			if (this.gameTimeRemaining <= 0) {
+				this.stopTimer();
+				EventsManager.trigger("Scoreboard.TimeUp");
+				return;
+			}
+		},
+
+		/**
+		 * Play a sound to inform the player that they are running out of time
+		 */
+		lowTimeWarning: function () {
+			SoundManager.playSound("warning");
+		},
+
+		/**
+		 * Start the level timer
+		 */
+		startTimer: function () {
+			this.stopAllTimers();
+			this.gameTimeRemaining = Config.MAX_TIME;
+			this.renderTimerText();
+			this.gameTimer = setInterval($.proxy(this.handleGameTick, this), Config.TICK_RATE);
+		},
+
+		/**
+		 * Render the timer element text
+		 */
+		renderTimerText: function () {
+			this.$timer.text(this.gameTimeRemaining / Config.TICK_RATE);
+		},
+
+		/**
+		 * Clear the tick timer
+		 */
+		stopAllTimers: function () {
+			clearInterval(this.tallyTimer);
+			clearInterval(this.gameTimer);
 		},
 
 		/**
 		 * Render current score into the text
 		 */
 		renderScore: function () {
-			this.$(".js-score").text(this.currentScore);
+			this.$score.text(this.currentScore);
 		},
 
 		/**
@@ -54,7 +158,7 @@ define("Scoreboard", [
 			this.renderScore();
 			this.animateCoin();
 
-			this.$(".js-score").text(this.currentScore);
+			this.$score.text(this.currentScore);
 		},
 
 		/**
@@ -62,7 +166,7 @@ define("Scoreboard", [
 		 */
 		animateCoin: function () {
 			this.$(".coin").remove();
-			this.$el.prepend(this.coin.clone(true).addClass("fadeOutUp"));
+			this.$el.prepend(this.$coin.clone(true).addClass("fadeOutUp"));
 			SoundManager.playSound("coin");
 		}
 	});

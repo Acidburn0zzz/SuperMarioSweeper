@@ -1,3 +1,7 @@
+html, body, .game {
+  height: 100%;
+}
+
 body {
 	background: #6b88fe;
 	color: #fff;
@@ -10,6 +14,11 @@ body {
   -ms-box-sizing: border-box;
   -o-box-sizing: border-box;
   box-sizing: border-box;
+}
+
+.game {
+  overflow: hidden;
+  position: relative;
 }
 
 .frame {
@@ -41,17 +50,16 @@ body {
 
 .title {
 	background: url('../img/title.png') no-repeat center center;
-	height: 176px;
-	width: 420px;
+  background-size: cover;
+	height: 88px;
+	width: 210px;
 }
-
 
 .world {
   width: 240px;
 }
 
 .block {
-  -webkit-transition: width .25s linear, height .25s linear;
 	background: url('../img/block.png') no-repeat center center;
   background-size: 100%;
 	color: #fff;
@@ -95,27 +103,65 @@ body {
 .ground {
 	background: url('../img/ground.png') repeat-x left top;
 	background-size: 10%;
-	bottom: 0;
+	bottom: -10px;
 	height: 50px;
 	position: absolute;
 	width: 100%;
 }
 
 .prop {
+  -webkit-transition: left 1s linear, right 1s linear, background-position 1s linear;
 	background-position: left top;
 	background-repeat: no-repeat;
 	background-size: 100%;
+  bottom: 50px;
 	position: absolute;
 }
 
 .castle {
   background-image: url('../img/castle.png');
   height: 150px;
+  left: -10%;
+  opacity: 0;
   width: 150px;
 }
 
-.prop-bush {
-	bottom: 50px;
+.game-won .flagpole,
+.game-won .castle {
+  opacity: 1;
+  left: 20%;
+}
+
+.game-won .bush {
+  left: 40%;
+}
+
+.flag {
+  -webkit-transition: bottom 1s linear;
+  background-image: url('../img/flag.png');
+  bottom: 25px;
+  height: 16px;
+  left: -4px;
+  width: 16px;
+}
+
+.flag.raising {
+  bottom: 85%;
+}
+
+.flagpole {
+  background-image: url('../img/flagpole.png');
+  height: 252px;
+  left: -10%;
+  opacity: 0;
+  width: 24px;
+}
+
+.game-won .flagpole {
+  left: 15%;
+}
+
+.bush {
 	background-image: url('../img/bush.png');
 	height: 38px;
 	left: 20%;

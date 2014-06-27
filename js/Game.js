@@ -19,11 +19,6 @@ define("Game", [
 		},
 
 		/**
-		 * Track the time remaining in the game
-		 */
-		timeRemaining: Config.MAX_TIME,
-
-		/**
 		 * Is the game over or not
 		 */
 		isOver: false,
@@ -55,20 +50,16 @@ define("Game", [
 		 */
 		winCondition: 0,
 
-		/**
-		 * Timer for the game ticks
-		 */
-		timer: null,
 
 		/**
 		 * First load all sounds and then call ready
 		 */
 		initialize: function () {
 			EventsManager.on("Block.Revealed", $.proxy(this.handleBlockReveal, this));
+			EventsManager.on("Scoreboard.TimeUp", $.proxy(this.gameOver, this));
 
 			// Load sounds and boot up the game
 			SoundManager.loadSounds().then($.proxy(function () {
-				this.$timer = this.$(".js-time");
 
 				this.world = new World({
 					el: $("#world")
@@ -94,7 +85,7 @@ define("Game", [
 		stopGame: function () {
 			this.isOver = true;
 			this.world.revealBowsers();
-			this.stopTimer();
+			this.scoreboard.stopAllTimers();
 		},
 
 		/**
@@ -109,57 +100,12 @@ define("Game", [
 			this.currentTurn = 0;
 			this.isOver = false;
 			this.winCondition = revealsNeededForWin;
+			this.$el.removeClass("game-won");
 		},
 
 
 		restartLevel: function () {
 			this.startNewGame(this.currentLevel);
-		},
-
-		/**
-		 * Start the level timer
-		 */
-		startTimer: function () {
-			this.stopTimer();
-			this.timeRemaining = Config.MAX_TIME;
-			this.renderTimerText();
-			this.timer = setInterval($.proxy(this.handleGameTick, this), Config.TICK_RATE);
-		},
-
-		/**
-		 * Clear the tick timer
-		 */
-		stopTimer: function () {
-			clearInterval(this.timer);
-		},
-
-		/**
-		 * Handle time changes, updating the time text, warn / game over if necessary
-		 */
-		handleGameTick: function () {
-			this.timeRemaining -= Config.TICK_RATE;
-			this.renderTimerText();
-
-			if (this.timeRemaining === Config.LOW_TIME_THRESHOLD) {
-				this.lowTimeWarning();
-			}
-
-			if (this.timeRemaining <= 0) {
-				this.stopTimer();
-				this.gameOver();
-				return;
-			}
-		},
-
-		renderTimerText: function () {
-			this.$timer.text(this.timeRemaining / Config.TICK_RATE);
-		},
-
-		/**
-		 * Play a sound to inform the player that they are running out of time
-		 */
-		lowTimeWarning: function () {
-			SoundManager.playSound("warning");
 		},
 
 		/**
@@ -172,10 +118,9 @@ define("Game", [
 
 			// start the timer on the players first turn
 			if (this.currentTurn <= 0) {
-				this.startTimer();
+				this.scoreboard.startTimer();
 			}
 
-			console.log(this.winCondition);
 			this.currentTurn++;
 			this.numRevealed++;
 
@@ -219,7 +164,10 @@ define("Game", [
 		 */
 		gameWinner: function () {
 			this.stopGame();
-			SoundManager.playSound("win");
+			this.$el.addClass("game-won");
+
+			this.scoreboard.tallyFinalScore(Config.TICK_RATE);
+			SoundManager.playSound("win");			
 		}
 	});
 	

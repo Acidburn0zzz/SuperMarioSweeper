@@ -24,7 +24,8 @@ define("SoundManager", [
 			"powerup": "sound/powerup.wav",
 			"powerdown": "sound/powerdown.wav",
 			"win": "sound/win.wav",
-			"fireball": "sound/fireball.wav"
+			"fireball": "sound/fireball.wav",
+			"flagpole": "sound/flagpole.wav"
 		},
 
 		/**
