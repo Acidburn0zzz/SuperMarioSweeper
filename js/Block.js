@@ -30,8 +30,30 @@ define("Block", [
 			this.render();
 		},
 
+		softReveal: function () {
+			var classNames = "is-revealed";
+
+			if (this.get("isBowser")) {
+				classNames += " is-bowser";
+			}
+
+			this.$el.addClass(classNames);
+		},
+
 		reveal: function () {
-			EventsManager.trigger("Block.Revealed", this);
+			if (this.get("revealed")) {
+				return false;
+			}
+
+			this.softReveal();
+			
+			var dangerLevel = this.get("dangerLevel");
+
+			if (dangerLevel > 0) {
+				this.$el.text(dangerLevel);
+			}
+
+			EventsManager.trigger("Block.Revealed", this, this.$el);
 		},
 
 		render: function () {

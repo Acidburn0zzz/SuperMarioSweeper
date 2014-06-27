@@ -39,11 +39,9 @@ define("World", [
 		 */
 		revealBowsers: function () {
 			var bowsers = this.collection.getAllBowsers();
-			var bowserIds = _.pluck(bowsers, "id");
 
-			_.each(bowserIds, function (id) {
-				var $el = $("#" + id);
-				$el.addClass("is-revealed is-bowser");
+			_.each(bowsers, function (block) {
+				block.softReveal();
 			});
 		},
 

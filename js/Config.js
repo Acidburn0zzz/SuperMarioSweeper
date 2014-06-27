@@ -29,7 +29,7 @@ define("Config", function () {
 		/**
 		 * Threshold time for playing the low time warning sound
 		 */
-		"LOW_TIME_THRESHOLD": 10 * 1000,
+		"LOW_TIME_THRESHOLD": 20 * 1000,
 
 		/**
 		 * Default score for revealing a block
@@ -39,14 +39,14 @@ define("Config", function () {
 		/**
 		 * Level definitions
 		 */
-		"WORLDS": {
-			'1-1': {
-				'dimensions': 8,
-				'difficulty': 10
+		"LEVELS": {
+			"1-1": {
+				"dimensions": 8,
+				"difficulty": 10
 			},
-			'1-2': {
-				'dimensions': 10,
-				'difficulty': 12
+			"1-2": {
+				"dimensions": 10,
+				"difficulty": 12
 			}
 		}
 	};

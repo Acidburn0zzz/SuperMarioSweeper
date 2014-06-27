@@ -5,8 +5,15 @@ define("SoundManager", [
 	"EventsManager"
 ], function ($, _, Backbone) {
 	return {
+
+		/**
+		 * Store loaded Audio objects in here
+		 */
 		cache: {},
 
+		/**
+		 * Every sound listed in here will be preloaded when loadSounds is called
+		 */
 		sounds: {
 			"bump": "sound/bump.wav",
 			"smash": "sound/smash.wav",
@@ -20,11 +27,18 @@ define("SoundManager", [
 			"fireball": "sound/fireball.wav"
 		},
 
+		/**
+		 * Get an Audio object from the cache and play it
+		 */
 		playSound: function (name) {
 			var sound = this.cache[name];	
 			sound.play();
 		},
 
+		/**
+		 * Load an Audio object and return a promise that 
+		 * gets resolved when the audio is loaded
+		 */
 		loadSound: function (name, path) {
 			var defer = $.Deferred();
 			var audio = new Audio(path);

@@ -30,6 +30,10 @@ define("Blocks", [
 			// Reveal the initial block
 			block.reveal();
 
+			if (block.get("dangerLevel") > 0) {
+				return;
+			}
+
 			// get all adjacent non-bowser blocks
 			var queue = [];
 			queue.push(this.getAdjacentTopLeftBlock(block, false));
@@ -46,7 +50,7 @@ define("Blocks", [
 			// reveal each adjacent block
 			while(queue.length > 0) {
 				var blockToReveal = queue.pop();
-				blockToReveal.reveal();
+				this.revealNearbyBlocks(blockToReveal);
 			}
 		},
 
@@ -213,7 +217,6 @@ define("Blocks", [
 			var numBowsersPlaced = 0;
 
 			while(numBowsersPlaced < numBowsersToPlace) {
-				console.log(numBowsersPlaced);
 				var block = this.getRandomBlock();
 
 				if (!block.get("isBowser")) {
