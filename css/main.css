@@ -111,6 +111,7 @@ body {
 
 .prop {
   -webkit-transition: left 1s linear, right 1s linear, background-position 1s linear;
+  transition: left 1s linear, right 1s linear, background-position 1s linear;
 	background-position: left top;
 	background-repeat: no-repeat;
 	background-size: 100%;
@@ -138,6 +139,7 @@ body {
 
 .flag {
   -webkit-transition: bottom 1s linear;
+  transition: bottom 1s linear;
   background-image: url('../img/flag.png');
   bottom: 25px;
   height: 16px;
@@ -300,4 +302,36 @@ Copyright (c) 2013 Daniel Eden
   backface-visibility: visible !important;
   -webkit-animation-name: flipInX;
   animation-name: flipInX;
+}
+
+@-webkit-keyframes jumping {
+  0% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+
+  50% {
+    -webkit-transform: translateY(-20px);
+    transform: translateY(-20px);
+  }
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes jumping {
+  0% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+
+  50% {
+    -webkit-transform: translateY(-20px);
+    transform: translateY(-20px);
+  }
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
 }

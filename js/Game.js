@@ -100,7 +100,7 @@ define("Game", [
 			this.currentTurn = 0;
 			this.isOver = false;
 			this.winCondition = revealsNeededForWin;
-			this.$el.removeClass("game-won");
+			this.$el.removeClass("game-won game-over");
 		},
 
 
@@ -156,6 +156,8 @@ define("Game", [
 		 */
 		gameOver: function () {
 			this.stopGame();
+			this.$el.addClass("game-over");
+
 			SoundManager.playSound("gameover");
 		},
 

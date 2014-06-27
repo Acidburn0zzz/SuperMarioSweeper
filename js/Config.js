@@ -42,7 +42,7 @@ define("Config", function () {
 		"LEVELS": {
 			"1-1": {
 				"dimensions": 8,
-				"difficulty": 10
+				"difficulty": 5
 			},
 			"1-2": {
 				"dimensions": 10,

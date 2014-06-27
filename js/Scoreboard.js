@@ -61,7 +61,9 @@ define("Scoreboard", [
 		 */
 		reset: function () {
 			this.currentScore = 0;
+			this.gameTimeRemaining = Config.MAX_TIME;
 			this.stopAllTimers();
+			this.renderTime();
 			this.renderScore();
 		},
 
@@ -75,7 +77,7 @@ define("Scoreboard", [
 				this.gameTimeRemaining -= Config.TICK_RATE;
 				this.currentScore++;
 
-				this.renderTimerText();
+				this.renderTime();
 				this.renderScore();
 			}, this), 50);
 		},
@@ -93,7 +95,7 @@ define("Scoreboard", [
 		 */
 		handleGameTick: function () {
 			this.gameTimeRemaining -= Config.TICK_RATE;
-			this.renderTimerText();
+			this.renderTime();
 
 			if (this.gameTimeRemaining === Config.LOW_TIME_THRESHOLD) {
 				this.lowTimeWarning();
@@ -119,14 +121,14 @@ define("Scoreboard", [
 		startTimer: function () {
 			this.stopAllTimers();
 			this.gameTimeRemaining = Config.MAX_TIME;
-			this.renderTimerText();
+			this.renderTime();
 			this.gameTimer = setInterval($.proxy(this.handleGameTick, this), Config.TICK_RATE);
 		},
 
 		/**
 		 * Render the timer element text
 		 */
-		renderTimerText: function () {
+		renderTime: function () {
 			this.$timer.text(this.gameTimeRemaining / Config.TICK_RATE);
 		},
 
