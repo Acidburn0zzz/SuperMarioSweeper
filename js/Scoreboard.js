@@ -41,19 +41,10 @@ define("Scoreboard", [
 		 * Listen for new games and detach the spinning coin element
 		 */
 		initialize: function () {
-			EventsManager.on("Game.NewGame", $.proxy(this.handleNewGame, this));
-
 			this.$timer = this.$(".js-time");
 			this.$flag = $("#flag");
 			this.$score = this.$(".js-score");
 			this.$coin = this.$(".coin").detach();
-		},
-
-		/**
-		 * Reset the score
-		 */
-		handleNewGame: function () {
-			this.reset();
 		},
 
 		/**
@@ -65,6 +56,7 @@ define("Scoreboard", [
 			this.stopAllTimers();
 			this.renderTime();
 			this.renderScore();
+			this.$flag.removeClass("raising");
 		},
 
 		addTimeToScore: function () {
@@ -82,12 +74,12 @@ define("Scoreboard", [
 			}, this), 50);
 		},
 
-		tallyFinalScore: function (duration) {
+		tallyFinalScore: function () {
 			this.tallyTimer = setTimeout($.proxy(function () {
 				SoundManager.playSound("flagpole");
 				this.$flag.addClass("raising");
 				this.addTimeToScore();
-			}, this), duration);
+			}, this), 1000);
 		},
 
 		/**

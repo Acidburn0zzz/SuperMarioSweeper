@@ -22,15 +22,14 @@ define("World", [
 		 */
 		initialize: function () {
 			EventsManager.on("Window.Resize", $.proxy(this.adjustSizes, this));
-			EventsManager.on("Game.NewGame", $.proxy(this.setWorld, this));
 		},
 
 		/**
-		 * Set the world dimensions & difficulty and reset the collection
+		 * Set the level dimensions & difficulty and reset the collection
 		 */
-		setWorld: function (worldData) {
-			this.dimensions = worldData.dimensions;
-			this.difficulty = worldData.difficulty;
+		setLevel: function (level) {
+			this.dimensions = level.dimensions;
+			this.difficulty = level.difficulty;
 			this.reset();
 		},
 

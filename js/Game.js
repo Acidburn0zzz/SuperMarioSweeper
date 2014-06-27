@@ -28,10 +28,8 @@ define("Game", [
 		 */
 		world: null,
 
-		currentTurn: 0,
-
 		/**
-		 * Store the active world configuration
+		 * Store the active level configuration
 		 */
 		currentLevel: {},
 
@@ -50,7 +48,6 @@ define("Game", [
 		 */
 		winCondition: 0,
 
-
 		/**
 		 * First load all sounds and then call ready
 		 */
@@ -60,7 +57,6 @@ define("Game", [
 
 			// Load sounds and boot up the game
 			SoundManager.loadSounds().then($.proxy(function () {
-
 				this.world = new World({
 					el: $("#world")
 				});
@@ -75,7 +71,6 @@ define("Game", [
 
 		startNewGame: function (level) {
 			this.currentLevel = level;
-			EventsManager.trigger("Game.NewGame", level, this);
 			this.reset();
 		},
 
@@ -95,15 +90,20 @@ define("Game", [
 			var numBlocks = this.currentLevel.dimensions * this.currentLevel.dimensions;
 			var revealsNeededForWin = numBlocks - this.currentLevel.difficulty;
 
+			this.world.setLevel(this.currentLevel);
+			this.world.reset();
+			this.scoreboard.reset();
+
 			this.numBlocks = numBlocks;
 			this.numRevealed = 0;
-			this.currentTurn = 0;
 			this.isOver = false;
 			this.winCondition = revealsNeededForWin;
 			this.$el.removeClass("game-won game-over");
 		},
 
-
+		/**
+		 * Start a new game with the current level
+		 */
 		restartLevel: function () {
 			this.startNewGame(this.currentLevel);
 		},
@@ -117,11 +117,10 @@ define("Game", [
 			}
 
 			// start the timer on the players first turn
-			if (this.currentTurn <= 0) {
+			if (this.numRevealed <= 0) {
 				this.scoreboard.startTimer();
 			}
 
-			this.currentTurn++;
 			this.numRevealed++;
 
 			// uh oh, game over!
@@ -168,7 +167,7 @@ define("Game", [
 			this.stopGame();
 			this.$el.addClass("game-won");
 
-			this.scoreboard.tallyFinalScore(Config.TICK_RATE);
+			this.scoreboard.tallyFinalScore();
 			SoundManager.playSound("win");			
 		}
 	});
